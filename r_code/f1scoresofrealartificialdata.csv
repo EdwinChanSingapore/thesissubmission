@@ -1,0 +1,18 @@
+Name,Type,Score
+Haplotype Caller,HiSeq,0.72
+Platypus,HiSeq,0.69
+LoFreq,HiSeq,0.31
+FreeBayes,HiSeq,0.03
+SNVer,HiSeq,0.81
+SAMtools,HiSeq,0.65
+Haplotype Caller,NextSeq,0.53
+Platypus,NextSeq,0.31
+LoFreq,NextSeq,0.17
+FreeBayes,NextSeq,0.01
+SNVer,NextSeq,0.05
+SAMtools,NextSeq,0.36
+FreeBayes,Simulated Illumina Dataset,0.705102134
+Haplotype Caller,Simulated Illumina Dataset,0.741810613
+Unified Genotyper,Simulated Illumina Dataset,0.15833591
+Pindel,Simulated Illumina Dataset,0.05371107
+SAMtools,Simulated Illumina Dataset,0.373301937

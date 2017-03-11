@@ -1,0 +1,10 @@
+Name,Type,HiSeq Real Dataset,NextSeq Real Dataset,Artificial Dataset with Illumina Profile
+GATK,recall,0.83,0.69,0.837379984
+FB,recall,1,0.79,0.556765642
+Samtools,recall,0.64,0.32,0.231173687
+GATK,precision,0.63,0.43,0.60652901
+FB,precision,0.01,0.01,0.847637899
+Samtools,precision,0.65,0.4,0.859369076
+GATK,f1 score,0.72,0.53,0.703500366
+FB,f1 score,0.03,0.01,0.672079848
+Samtools,f1 score,0.65,0.36,0.364338794

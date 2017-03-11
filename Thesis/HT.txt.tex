@@ -1,0 +1,150 @@
+\documentclass{article}
+
+\usepackage{lipsum}
+\usepackage[letterpaper, margin=1.4in]{geometry}
+
+
+%
+\usepackage{tikz}
+%
+\usetikzlibrary{calc}
+%
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\graphicspath{ {c:/users/user/pictures/thesisimages/} }
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\begin{tikzpicture}[overlay,remember picture]
+    \draw [line width=1pt,rounded corners=0pt,
+        ]
+        ($ (current page.north west) + (2cm,-2cm) $)
+        rectangle
+        ($ (current page.south east) + (-2cm,2cm) $);
+\end{tikzpicture}
+
+    \begin{center} 
+	\Large
+        \vspace*{1cm}
+        
+        \textbf{A Deep Learning Method for Variant Calling}
+        
+        \vspace{0.5cm}
+        %subtitle here
+        
+        \vspace{1.0cm}
+        
+        \textbf{Chan Khai Ern, Edwin}
+        
+\vspace{9.0cm}
+        \normalsize
+       A thesis submitted to the \\
+Department of Biochemistry \\
+National University of Singapore \\
+in partial fulfilment for the \\
+Degree of Bachelor of Science with \\Honours
+in
+Life Sciences\\
+
+        
+        \vspace{1.5cm}
+        
+        
+        Life Sciences Honours Cohort \\
+        AY2015/2016 S1\\
+       
+        
+    \end{center}
+\end{titlepage}
+
+
+\doublespace
+\normalsize
+\section{Introduction}
+Variant calling is a critical step in the identification of mutations in genomes, and is important in downstream applications such as the annotation of mutant genes and the analysis of physiological consequences. However, current variant callers still tend to have low concordances for variants called (O'Rawe et al., 2013; Cornish and Guda, 2015), primarily due to differences in variant calling algorithms and assumptions. Furthermore, these variant callers do not take into account the importance of each variant in the Human metabolic and biochemical pathways. This is critical for clinicians as a clinician should be able to obtain variants that are of clinical significance, enabling them to embark on the best treatment pathway. In this paper, we describe a tool, INSERTNAMEHERE, to integrate data from multiple variant callers, filter true variants and prioritise their importance. This tool uses deep learning for filtering variants, and bayesian updating to determine variants that are the most important.\\
+
+Variant calling primarily involves the use of various statistical and mathematical methods to discover variants, or mutations, in the genome. Calling variants allows the analysis of deviations and differences between the genome of interest and a standard human genome. However, there are still areas for improvement in current variant calling methods, including dealing with different classes of mutations, as well as reducing the number of false positives (Mohiyuddin, et al., 2015; Gézsi et al., 2015). Both these problems fundamentally result from assumptions and implementations of variant callers - certain algorithms are more sensitive and accurate in calling certain classes of mutations, but suffer from inaccuracies in calling other variant types and edge cases. Probabilistic haplotype generating callers (such as GATK's haplotype caller and FreeBayes) tend to be more accurate for SNPs and indels (McKenna et al. 2010; Garrison \& Marth, 2012). They perform de-novo local assembly, where they rebuild small portions of the genome, and subsequently use bayesian analysis to determine the existence of variants. Specifically, they generate short haplotypes of local regions from sampled sequences, and determine (based on the haplotypes and prior probabilities in the reference genome) whether a variant should be called. However, these methods can only handle limited window sizes, preventing the detection of larger structural variants. For these we have to rely on other tools that examine larger segments of the genome (Ning et al., 2009) or use libraries of known mutation regions, and study these breakpoints to check if any mutations have occurred (Gerstein et al., 2015). Due to the heterogenity in mutations, no single caller works best for all classes of mutations, pointing towards a variant calling framework that aggregates data from multiple callers.\\
+
+Indeed, studies have shown low concordances between variant callers themselves, due to their specific implementations and algorithms (Mohiyuddin, et al., 2015; Gézsi et al., 2015). If we consider that each variant caller samples from the same genome but with a different statistical technique, then we can see each variant caller as a mode of data that provides us with a unique piece of information on the genome. Thus, we can generate more accurate calls by aggregating the multi-modal data from various callers, allowing us to cross validate the variants called using multiple techniques.\\
+
+The simplest approach to aggregate data is concordance - if multiple variant callers are able to call a variant, it is most likely to be accurate. However, the precision of such a tool would be poor due to the differential sensitivity of callers to edge cases. This would defeat the purpose of using multiple callers in the first place, as the strength of a combinatorial approach lies in tapping into the sensitivities of different callers. More sophisticated efforts have since been done to use machine learning methods such as Support Vector Machines as a way to integrate variant calling information (Gézsi et al., 2015), and the authors showed that SVMs presented an improvement over concordance based methods. However, with the advent of deep learning techniques and libraries, which have been shown be able to integrate complex multi-modal information to solve problems (Ng et al., 2015), we hypothesize that deep learning can also be used to integrate the information from variant callers.\\
+
+Deep learning is a method of machine learning that involves deep stacks of artificial neural networks. These neural networks were inspired by the way our synapses work in the brain, and are represented in silico by input/output nodes that fire when a certain threshold is reached. Thus, these neural networks are able to simulate learning - by learning from labelled data correlations between inputs and outputs, these networks are able to predict outputs if given a new input. 
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{neuralnet.png}
+\centering
+\caption{A Neural Network with 1 input layer, 3 hidden layers and 1 output layer. This represents a densely connected neural network, where each node is connected to every node of the preceding and subsequent layers. At each node, linking functions can be had }
+\end{figure}
+
+Figure 1 depicts a sample neural network with 5 layers, with 8 data points as input, and 3 data points as output. In such a network, we would train it by providing the input data and output data, and letting the network learn how to integrate the inputs to create a network of activations that can be used to produce the corresponding output. This in part mimics the way we learn - experience teaches us that certain stimuli will result in specific effects (when we see a lightning bolt, we can expect the sound of thunder), and thus when new input comes in (a lightning bolt is seen), we can predict that the output that would arise (thunder is heard). In variant calling, deep learning will allow us to predict based on variant calling patterns and data whether a variant is valid and exists, or is erroneous. This will allow us to draw of the diversity of data with different variant callers, through letting the network learn which patterns will result in a valid call and which patterns are actually false positives. It will also allow us to tap on the differential sensitivity of different callers, as the neural network is able to learn which callers work best for which types of mutations. Thus, such a combinatorial approach will allow us to improve the accuracy and precision of variant calling.\\
+
+
+\begin{equation}
+P(Mutation is Important | Mutation is clinVar) = \frac{P(Mutation is clinVar | mutation is important)* P(Mutation is important)}{P(Mutation is ClinVar)}
+\end{equation}
+
+
+\begin{equation}
+\prod P(token_i | spam) = P("free" | spam)* P("viagra"|spam)*P(next token|spam)....
+\end{equation}
+
+\begin{equation}
+P(clinVar | important) 
+\end{equation}
+\begin{equation}
+P(mutationTaster | important)
+\end{equation}
+\begin{equation}
+P(SIFT | important)
+\end{equation}
+
+\section{Materials and Methods}
+
+\subsection{Artificial Datasets}
+To generate datasets to train variant calling networks, VarSim was used with ART in order to generate artificial datasets. Datasets generated has 
+
+
+\subsection{Variant Callers}
+There are a multitute of variant callers available, and they ea
+
+\subsection{Feature Selection}
+
+\subsection{Neural Networks}
+
+
+
+\subsection{Deep Learning Methods}
+For our deep learning networks, we used the Keras library with a TensorFlow backend. 
+
+\subsection{Artificial Datasets}
+
+\subsection{Processing tools}
+
+\section{Bibilography}
+
+\begin{thebibliography}{9}
+\bibitem{latexcompanion} 
+O'Rawe, J., Jiang, T., Sun, G., Wu, Y., Wang, W., Hu, J., ... \& Wei, Z. (2013). Low concordance of multiple variant-calling pipelines: practical implications for exome and genome sequencing. Genome medicine, 5(3), 1.
+ 
+\bibitem{einstein} 
+ Cornish, A., \& Guda, C. (2015). A comparison of variant calling pipelines using genome in a bottle as a reference. BioMed research international, 2015.
+
+\bibitem{knuthwebsite} 
+Mohiyuddin, M., Mu, J. C., Li, J., Asadi, N. B., Gerstein, M. B., Abyzov, A., ... \& Lam, H. Y. (2015). MetaSV: an accurate and integrative structural-variant caller for next generation sequencing. Bioinformatics, btv204.
+
+\bibitem{knuthwebsite} 
+Gézsi, A., Bolgár, B., Marx, P., Sarkozy, P., Szalai, C., \& Antal, P. (2015). VariantMetaCaller: automated fusion of variant calling pipelines for quantitative, precision-based filtering. BMC genomics, 16(1), 1.
+
+\bibitem{knuthwebsite} 
+Huval, B., Wang, T., Tandon, S., Kiske, J., Song, W., Pazhayampallil, J., Andriluka, M., Rajpurkar, P., Migimatsu, T., Cheng-Yue, R. and Mujica, F., 2015. An empirical evaluation of deep learning on highway driving. arXiv preprint arXiv:1504.01716.
+
+\end{thebibliography}
+
+
+
+\end{document}

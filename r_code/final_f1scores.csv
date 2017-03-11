@@ -1,0 +1,12 @@
+Name,Type,F1,Order
+Pindel,Single,0.05371107,1
+Unified Genotyper,Single,0.15833591,1
+Samtools,Single,0.373301937,1
+Free Bayes,Single,0.705102134,1
+Haplotype Caller,Single,0.741810613,1
+1-Concordance,Concordance,0.111771241,1
+2-Concordance,Concordance,0.356194858,1
+3-Concordance,Concordance,0.738146062,1
+4-Concordance,Concordance,0.81644426,1
+5-Concordance,Concordance,0.203899007,1
+Neural Network,Neural Network,0.979442903,1
